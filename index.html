@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>แผนฉุกเฉิน</title>
 <!-- หน้าเปิดแอป: ให้ไอคอน + ชื่อบนหน้าจอโฮม แล้วพาเข้าระบบจริงบน Apps Script -->
 <link rel="manifest" href="manifest.webmanifest">
@@ -15,10 +15,19 @@
 <meta name="theme-color" content="#b71c1c">
 <script>
   var APP_URL = 'https://script.google.com/macros/s/AKfycbwpgjYRNQHTaz59nj_5mAbRXPKmlOKZHB1YaIotJk6V_6I2sLigLS_l7RQmz0X2Quyx/exec';
-  // เปิดจากไอคอนบนหน้าจอโฮม → เข้าระบบทันที
-  var standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
-  if (standalone || /[?&]go=1/.test(location.search)) location.replace(APP_URL);
+  // เปิดจากไอคอนบนหน้าจอโฮม → แสดงระบบเต็มจอในหน้านี้ (iframe) ไม่ส่งออกไปเบราว์เซอร์ซ้อน
+  // ที่มีแถบเครื่องมือบังเมนูด้านล่าง; เว้นขอบบน/ล่างตามรอยบากและแถบโฮมของเครื่อง
+  var standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || /[?&]app=1/.test(location.search);
+  if (/[?&]go=1/.test(location.search)) location.replace(APP_URL);
+  if (standalone) document.documentElement.className = 'app';
 </script>
+<style>
+  html.app,html.app body{height:100%;overflow:hidden;background:#b71c1c}
+  html.app .top,html.app main{display:none}
+  #frame{display:none}
+  html.app #frame{display:block;position:fixed;left:0;right:0;top:env(safe-area-inset-top);bottom:env(safe-area-inset-bottom);width:100%;height:calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom));border:0;background:#f5f5f4}
+  html.app body::after{content:'';position:fixed;left:0;right:0;bottom:0;height:env(safe-area-inset-bottom);background:#fff}
+</style>
 <style>
   :root{--brand:#b71c1c;--ink:#222;--muted:#666;--bg:#f5f5f4;--card:#fff;--line:#e5e5e5}
   *{box-sizing:border-box}
@@ -60,7 +69,9 @@
   <div class="card">แตะไอคอน <b>แผนฉุกเฉิน</b> บนหน้าจอโฮม ระบบจะเปิดขึ้นทันที ต้องใช้อินเทอร์เน็ต ตอนไม่มีเน็ตให้เปิดบัตรฉุกเฉินที่บันทึกไว้ในคลังภาพ</div>
   <p class="muted">ฝ่าย SHE · หน่วยงาน Safety เบอร์ภายใน 170</p>
 </main>
+<iframe id="frame" title="แผนฉุกเฉิน" allow="camera; geolocation; clipboard-write; fullscreen"></iframe>
 <script>
+  if (standalone) document.getElementById('frame').src = APP_URL;
   var ua = navigator.userAgent, id = /iPhone|iPad|iPod/.test(ua) ? 'ios' : /Android/.test(ua) ? 'android' : 'other';
   document.getElementById(id).style.display = 'block';
 </script>
