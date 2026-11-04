@@ -81,16 +81,18 @@
     var top = parseFloat(pr.paddingTop) || 0, bot = Math.round((parseFloat(pr.paddingBottom) || 0) * 0.5);
     var H = window.innerHeight;
     if (window.navigator.standalone === true && screen.height) {
-      var portrait = window.innerHeight >= window.innerWidth;
-      H = Math.max(H, portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height));
-    }
+      var portrait = window.innerHeight >= window.innerWidth, sh = Math.max(screen.width, screen.height);
+      H = Math.max(H, portrait ? sh : Math.min(screen.width, screen.height));
+      // iPhone บางรุ่นรายงานขอบบนเป็น 0 ตอนเปิดแอป → ใช้ความสูงแถบสถานะตามขนาดจอ (Dynamic Island 59 / รอยบาก 47 / ปุ่มโฮม 20)
+      if (portrait && top < 20) top = sh >= 852 ? 59 : sh >= 812 ? 47 : 20;    }
     document.documentElement.style.height = document.body.style.height = H + 'px';
     var f = document.getElementById('frame');
     f.style.top = top + 'px'; f.style.height = (H - top - bot) + 'px';
     document.getElementById('bar').style.height = top + 'px';
   }
   if (standalone) {
-    layApp();
+    layApp(); setTimeout(layApp, 300); setTimeout(layApp, 1200);
+    window.addEventListener('load', layApp);
     window.addEventListener('resize', layApp);
     window.addEventListener('orientationchange', function(){ setTimeout(layApp, 300); });
     document.getElementById('frame').src = APP_URL;
