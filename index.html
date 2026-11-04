@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แผนฉุกเฉิน</title>
+<!-- หน้าเปิดแอป: ให้ไอคอน + ชื่อบนหน้าจอโฮม แล้วพาเข้าระบบจริงบน Apps Script -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="แผนฉุกเฉิน">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#b71c1c">
+<script>
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbwpgjYRNQHTaz59nj_5mAbRXPKmlOKZHB1YaIotJk6V_6I2sLigLS_l7RQmz0X2Quyx/exec';
+  // เปิดจากไอคอนบนหน้าจอโฮม → เข้าระบบทันที
+  var standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  if (standalone || /[?&]go=1/.test(location.search)) location.replace(APP_URL);
+</script>
+<style>
+  :root{--brand:#b71c1c;--ink:#222;--muted:#666;--bg:#f5f5f4;--card:#fff;--line:#e5e5e5}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Sarabun,'Leelawadee UI',Tahoma,-apple-system,sans-serif;background:var(--bg);color:var(--ink)}
+  .top{background:var(--brand);color:#fff;text-align:center;padding:28px 16px 22px}
+  .top img{width:96px;height:96px;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .top h1{margin:12px 0 2px;font-size:24px}
+  .top p{margin:0;font-size:14px;opacity:.9}
+  main{max-width:480px;margin:0 auto;padding:16px}
+  .btn{display:block;text-align:center;text-decoration:none;background:var(--brand);color:#fff;font-weight:700;font-size:18px;border-radius:14px;padding:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:14px;font-size:15px;line-height:1.55}
+  .card h2{margin:0 0 6px;font-size:16px;color:var(--brand)}
+  .card ol{margin:0;padding-left:20px}
+  .os{display:none}
+  .muted{color:var(--muted);font-size:13px;text-align:center;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="top">
+  <img src="icon-180.png" alt="">
+  <h1>แผนฉุกเฉิน</h1>
+  <p>บริษัท เอเซีย พรีซิชั่น เอ.ที. จำกัด</p>
+</div>
+<main>
+  <a class="btn" href="javascript:location.replace(APP_URL)">🚨 เปิดระบบแผนฉุกเฉิน</a>
+
+  <div class="card os" id="ios">
+    <h2>📲 เพิ่มเป็นแอปบน iPhone</h2>
+    <ol><li>เปิดหน้านี้ใน <b>Safari</b></li><li>กดปุ่มแชร์ ⬆️ ด้านล่าง</li><li>เลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b> แล้วกด <b>เพิ่ม</b></li></ol>
+  </div>
+  <div class="card os" id="android">
+    <h2>📲 เพิ่มเป็นแอปบน Android</h2>
+    <ol><li>เปิดหน้านี้ใน <b>Chrome</b></li><li>กด <b>⋮</b> มุมขวาบน</li><li>เลือก <b>"เพิ่มลงในหน้าจอหลัก"</b> หรือ <b>"ติดตั้งแอป"</b> แล้วกด <b>เพิ่ม</b></li></ol>
+  </div>
+  <div class="card os" id="other">
+    <h2>📲 เพิ่มเป็นแอปบนมือถือ</h2>
+    <ol><li>เปิดหน้านี้บนมือถือ</li><li><b>iPhone:</b> Safari → ปุ่มแชร์ ⬆️ → "เพิ่มไปยังหน้าจอโฮม"</li><li><b>Android:</b> Chrome → ⋮ → "เพิ่มลงในหน้าจอหลัก"</li></ol>
+  </div>
+  <div class="card">แตะไอคอน <b>แผนฉุกเฉิน</b> บนหน้าจอโฮม ระบบจะเปิดขึ้นทันที ต้องใช้อินเทอร์เน็ต ตอนไม่มีเน็ตให้เปิดบัตรฉุกเฉินที่บันทึกไว้ในคลังภาพ</div>
+  <p class="muted">ฝ่าย SHE · หน่วยงาน Safety เบอร์ภายใน 170</p>
+</main>
+<script>
+  var ua = navigator.userAgent, id = /iPhone|iPad|iPod/.test(ua) ? 'ios' : /Android/.test(ua) ? 'android' : 'other';
+  document.getElementById(id).style.display = 'block';
+</script>
+</body>
+</html>
