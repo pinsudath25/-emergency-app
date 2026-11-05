@@ -57,6 +57,7 @@
 </div>
 <main>
   <a class="btn" href="javascript:location.replace(APP_URL)">🚨 เปิดระบบแผนฉุกเฉิน</a>
+  <a class="btn" id="inst" href="#" style="display:none;margin-top:10px;background:#fff;color:var(--brand);border:2px solid var(--brand)">📲 ติดตั้งแอปลงมือถือ</a>
 
   <div class="card os" id="ios">
     <h2>📲 เพิ่มเป็นแอปบน iPhone</h2>
@@ -101,6 +102,12 @@
   }
   var ua = navigator.userAgent, id = /iPhone|iPad|iPod/.test(ua) ? 'ios' : /Android/.test(ua) ? 'android' : 'other';
   document.getElementById(id).style.display = 'block';
+  // Android: service worker ทำให้ Chrome ยอมติดตั้งเป็นแอป + ปุ่มติดตั้งในหน้า (ขึ้นเมื่อเครื่องพร้อมติดตั้ง)
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function(){});
+  var deferred, inst = document.getElementById('inst');
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; inst.style.display = 'block'; });
+  inst.onclick = function(e){ e.preventDefault(); if (!deferred) return; deferred.prompt(); deferred.userChoice.then(function(){ deferred = null; inst.style.display = 'none'; }); };
+  window.addEventListener('appinstalled', function(){ inst.style.display = 'none'; });
 </script>
 </body>
 </html>
